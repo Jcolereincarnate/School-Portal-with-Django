@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ACU Student Portal{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <img src="{{ '/static/images/logo.png' }}" alt="ACU Logo" class="nav-logo">
+            <span>ACU Portal</span>
+        </div>
+    
+        <!-- Hamburger Toggle (Checkbox + Label) -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+            <li><a href="{% url 'dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li><a href="{% url 'course_registration' %}" class="{% if '/courses/' in request.path %}active{% endif %}">Courses</a></li>
+            <li><a href="{% url 'results' %}" class="{% if '/results/' in request.path %}active{% endif %}">Results</a></li>
+            <li><a href="{% url 'payments' %}" class="{% if '/payments/' in request.path %}active{% endif %}">Payments</a></li>
+            <li><a href="{% url 'hostel_application' %}" class="{% if '/hostel/' in request.path %}active{% endif %}">Hostel</a></li>
+        </ul>
+    
+        <!-- Profile Section -->
+        <div class="nav-profile">
+            <a href="javascript:void(0)" class="notifications" onclick="toggleNotifications()">
+                <div class="notification-icon-wrapper">
+                    <img src="{% static 'images/bell.svg' %}" alt="Notifications" class="icon">
+                    {% if unread_notifications.count %}
+                        <span class="notification-badge">{{ unread_notifications.count }}</span>
+                    {% endif %}
+                </div>
+            </a>
+            
+            <div id="notif-panel" class="notif-panel">
+                {% for notification in notifications %}
+                    <div class="notif-item {% if not notification.is_read %}unread{% endif %}">
+                        <p class="message">{{ notification.message }}</p>
+                        <span class="timestamp">{{ notification.created_at|date:"M d, Y - H:i" }}</span>
+                    </div>
+                {% empty %}
+                    <p class="no-notification">No notifications</p>
+                {% endfor %}
+            </div>
+            <div class="profile-menu">
+                <a href="{% url 'profile' %}">
+                    <img src="{{ user.studentprofile.imageURL|default:'/static/images/default-avatar.png' }}" alt="Profile" class="avatar">
+                </a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'login' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="container">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <h4>About</h4>
+                <p>ACU Student Portal is designed to simplify academic tasks including course registration, result checking, payments, and hostel applications.</p>
+            </div>
+    
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'course_registration' %}">Course Registration</a></li>
+                    <li><a href="{% url 'results' %}">Results</a></li>
+                    <li><a href="{% url 'hostel_application' %}">Hostel</a></li>
+                </ul>
+            </div>
+    
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>Email: support@acu.edu.ng</p>
+                <p>Phone: +234 123 456 7890</p>
+                <p>Location: Ajayi Crowther University, Oyo, Nigeria</p>
+            </div>
+        </div>
+    
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} ACU Student Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNotifications() {
+            const panel = document.getElementById("notif-panel");
+            panel.style.display = panel.style.display === "block" ? "none" : "block";
+        }
+        </script>

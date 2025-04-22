@@ -1,0 +1,50 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block title %}Registered Courses{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/registered_courses.css' %}">
+<div class="container">
+    <h2 class="page-title">Registered Courses</h2>
+
+    {% if registered_courses %}
+        <div class="table-wrapper">
+            <table class="course-table" id="registeredCoursesTable">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Units</th>
+                        <th>Semester</th>
+                        <th>Session</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in registered_courses %}
+                    <tr>
+                        <td>{{ course.course.code }}</td>
+                        <td>{{ course.course.title }}</td>
+                        <td>{{ course.course.units }}</td>
+                        <td>{{ course.get_semester_display }}</td>
+                        <td>{{ course.session }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>Total Units</strong></td>
+                        <td colspan="3">{{ total_units }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-courses">You have not registered any courses for this semester.</p>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{% url 'course_registration' %}" class="btn-primary">Register More Courses</a>
+        <button onclick="window.print()" class="btn-primary">Print</button>
+    </div>
+</div>
+{% endblock %}

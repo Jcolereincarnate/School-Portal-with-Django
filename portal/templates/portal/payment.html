@@ -1,0 +1,23 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block title %}Make Payment{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
+<div class="payment-container">
+    <h1>Make a Payment</h1>
+
+    <form method="POST" class="payment-form">
+        {% csrf_token %}
+
+        <label for="purpose">Payment Purpose:</label>
+        <input type="text" name="purpose" id="purpose" placeholder="e.g. Tuition, Hostel Fee" required>
+
+        <label for="amount">Amount (₦):</label>
+        <input type="number" name="amount" id="amount" min="0" step="0.01" required>
+
+        <a type="submit" class="submit-btn">Proceed to Pay with Remita</a>
+    </form>
+</div>
+{% endblock %}

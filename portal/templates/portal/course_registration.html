@@ -1,0 +1,28 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Course Registration{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/course_registration.css' %}">
+<body>
+    <div class="container">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if available_courses %}
+            <div class="course-list">
+                {% for course in available_courses %}
+                    <label class="course-item">
+                        <input type="checkbox" name="courses" value="{{ course.id }}"
+                            {% if course.id in registered_courses.values_list %}checked{% endif %}>
+                        {{ course.code }} - {{ course.title }} ({{ course.units }} Units)
+                    </label>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn">Register Selected Courses</button>
+            {% else %}
+            <p>No courses available for your level and semester.</p>
+            {% endif %}
+        </form>
+    </div>
+    {% endblock %}

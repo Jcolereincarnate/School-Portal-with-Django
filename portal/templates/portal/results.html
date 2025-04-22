@@ -1,0 +1,38 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block title %}Results{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/registered_courses.css' %}">
+<div class="container">
+    <h2 class="page-title">Results</h2>
+
+    {% if results %}
+        <div class="table-wrapper">
+            <table class="course-table" id="registeredCoursesTable">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Units</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.registered_course.course.code }}</td>
+                        <td>{{ result.registered_course.course.title }}</td>
+                        <td>{{ result.registered_course.course.units }}</td>
+                        <td class="grade">{{ result.grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-courses">No results to view</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Dashboard - ACU Student Portal{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="welcome-header">
+        <h1>Welcome, {{ user.get_full_name }}</h1>
+        <p class="student-info">{{ user.studentprofile.matric_number }} | {{ user.studentprofile.department }}</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Academic Status -->
+        <div class="dashboard-card">
+            <h2>Academic Status</h2>
+            <div class="status-info">
+                <div class="info-item">
+                    <span class="label">Level</span>
+                    <span class="value">{{ user.studentprofile.level }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Semester</span>
+                    <span class="value">{{ current_semester }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Session</span>
+                    <span class="value">{{ current_session }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Registration -->
+        <div class="dashboard-card">
+            <h2>Course Registration</h2>
+            <div class="course-stats">
+                <div class="stat-item">
+                    <span class="stat-value">{{ registered_courses_count }}</span>
+                    <span class="stat-label">Registered Courses</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ total_units }}</span>
+                    <span class="stat-label">Total Units</span>
+                </div>
+            </div>
+            <div class="button-containers">
+            <a href="{% url 'course_registration' %}" class="btn btn-primarys">Register Courses</a>
+            <a href="{% url 'registered_courses' %}" class="btn btn-primarys">View Registered Courses</a>
+        </div>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="dashboard-card">
+            <h2>Payment Status</h2>
+            <div class="payment-status {% if fees_paid %}status-paid{% else %}status-pending{% endif %}">
+                <span class="status-icon">{% if fees_paid %}✓{% else %}!{% endif %}</span>
+                <span class="status-text">
+                    {% if fees_paid %}
+                        School Fees Paid
+                    {% else %}
+                        School Fees Pending
+                    {% endif %}
+                </span>
+            </div>
+            {% if not fees_paid %}
+                <a href="{% url 'payments' %}" class="btn btn-primary">Pay Now</a>
+            {% endif %}
+        </div>
+
+        <!-- Hostel Status -->
+        <div class="dashboard-card">
+            <h2>Hostel Status</h2>
+            {% if hostel_status %}
+                <div class="hostel-info">
+                    <p class="hostel-name">{{ hostel_status.hostel.name }}</p>
+                    <p class="room-info">Room Allocated</p>
+                </div>
+            {% else %}
+                <div class="hostel-info">
+                    <p>No active hostel allocation</p>
+                    <a href="{% url 'hostel_application' %}" class="btn btn-primary">Apply for Hostel</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Results -->
+    <div class="recent-results">
+        <div class="section-header">
+            <h2>Recent Results</h2>
+            <a href="{% url 'results' %}" class="view-all">View All</a>
+        </div>
+        <div class="results-table-container">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Units</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in recent_results %}
+                    <tr>
+                        <td>{{ result.registered_course.course.code }}</td>
+                        <td>{{ result.registered_course.course.title }}</td>
+                        <td>{{ result.registered_course.course.units }}</td>
+                        <td class="grade">{{ result.grade }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-results">No recent results available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
