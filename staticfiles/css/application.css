@@ -1,0 +1,57 @@
+.hostel-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+.hostel-container h1 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.application-info {
+    background-color: var(--info-color);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+}
+
+.hostel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hostel-form label {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.hostel-form select {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    color: var(--text-color);
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-dark);
+}

@@ -1,0 +1,82 @@
+:root {
+    --primary-color: #2e1a7d;
+    --primary-dark: #1e1152;
+    --secondary-color: #c8a035;
+    --success-color: #2d8a46;
+    --danger-color: #d42c2c;
+    --warning-color: #e9b949;
+    --info-color: #4a5fc1;
+    --background-color: #f8fafc;
+    --text-color: #1e293b;
+    --border-color: #d9c27d;
+    --shadow-sm: 0 1px 2px 0 rgb(46 26 125 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(46 26 125 / 0.1), 0 1px 2px -1px rgb(46 26 125 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(46 26 125 / 0.1), 0 2px 4px -2px rgb(46 26 125 / 0.1);
+}
+
+.edit-profile-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    color: var(--text-color);
+}
+
+.edit-profile-container h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.edit-profile-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.edit-profile-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--primary-dark);
+}
+
+.edit-profile-form input[type="text"],
+.edit-profile-form textarea,
+.edit-profile-form input[type="file"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.current-pic {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.current-pic img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-dark);
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    margin: 2rem auto 0;
+    transition: background 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-dark);
+}
