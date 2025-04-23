@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate,get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -8,31 +8,38 @@ from django.db.models import Sum
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
+from . import backends
 from django.http import HttpResponse
 import requests
 from datetime import datetime
 from django.template.loader import get_template
 from django.http import HttpResponse
 
-
+@login_required
 def home(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
-    return render(request, 'auth/login.html')
-
+    return render(request, 'registration/login.html')
+User = get_user_model()
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username') 
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        
+
+        try:
+            # Get the user object tied to this matric number
+           student = StudentProfile.objects.get(matric_number=username)
+           user = authenticate(request, username=username, password=password)
+        except StudentProfile.DoesNotExist:
+            user = None
+
         if user is not None:
             login(request, user)
             return redirect('dashboard')
         else:
-            messages.error(request, 'Invalid credentials')
-    
-    return render(request, 'auth/login.html')
+            messages.error(request, 'Invalid matric number or password')
+
+    return render(request, 'registration/login.html')
 
 def logout_view(request):
     logout(request)
@@ -70,7 +77,8 @@ def register(request):
             department=request.POST.get('department'),
             level=request.POST.get('level'),
             address=request.POST.get('address', ''),
-            profile_picture=request.FILES.get('profile_picture')
+            profile_picture=request.FILES.get('profile_picture'),
+            gender = request.POST.get('gender')
         )
         
         login(request, user)
@@ -88,7 +96,7 @@ def dashboard(request):
         semester = current_session.semester  
     else:
       
-        session = '2023/2024' 
+        session = '2024/2025' 
         semester = 1  
 
    

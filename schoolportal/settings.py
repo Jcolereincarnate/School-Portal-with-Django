@@ -27,7 +27,9 @@ SECRET_KEY = 'django-insecure-jedalsaheoss(j-nev7enxltch71=xniq+&0p+)8)fq^274#3y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['maybeacuportal.onrender.com']
+ALLOWED_HOSTS = ['maybeacuportal.onrender.com',
+                 '127.0.0.1'
+                 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Application definition
@@ -145,3 +147,9 @@ STATICFILES_DIRS= (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+AUTHENTICATION_BACKENDS = ['portal.backends.MatricNumberAuthBackend']
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+LOGOUT_REDIRECT_URL = 'login'
