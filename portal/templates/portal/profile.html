@@ -9,7 +9,7 @@
         <div class="profile-container">
             <h1>Student Profile</h1>
             <div class="profile-card">
-                <img src="{{ user.studentprofile.profile_picture.url }}" alt="Profile Picture" class="profile-image">
+                <img src="{{ user.studentprofile.imageURL }}" alt="Profile Picture" class="profile-image">
                 <div class="profile-info">
                     <p><strong>Full Name:</strong> {{ user.studentprofile.user.get_full_name }}</p>
                     <p><strong>Matric Number:</strong> {{ user.studentprofile.matric_number }}</p>
